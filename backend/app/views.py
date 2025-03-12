@@ -32,9 +32,9 @@ def blog_create(request):
         return Response(serializer.data)
     return Response(serializer.errors)
 
-# Update a blog
+# complete update a blog
 @api_view(['PUT'])
-def blog_update(request, pk):
+def blog_complete_update(request, pk):
     if request.method == 'PUT':
         try:
             blog = Blogs.objects.get(id=pk)    
@@ -44,3 +44,16 @@ def blog_update(request, pk):
             return Response(serializer.data)
         except Exception as e:
             return Response({"error": str(e)})   
+        
+# partial update a blog
+@api_view(['PATCH'])
+def blog_partial_update(request, pk):
+    if request.method == 'PATCH':
+        try:
+            blog = Blogs.objects.get(id=pk)    
+            serializer = BlogSerializers(instance=blog, data=request.data, partial=True)
+            if serializer.is_valid():
+                serializer.save()
+            return Response(serializer.data)
+        except Exception as e:
+            return Response({"error": str(e)}) 
