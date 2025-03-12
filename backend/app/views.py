@@ -57,3 +57,14 @@ def blog_partial_update(request, pk):
             return Response(serializer.data)
         except Exception as e:
             return Response({"error": str(e)}) 
+        
+# delete a blog
+@api_view(['DELETE'])
+def blog_delete(request, pk):
+    try:
+        blog = Blogs.objects.get(id=pk)
+        blog.delete()
+        return Response({"message": "Blog deleted successfully"})
+    except Exception as e:
+        return Response({"error": str(e)}) 
+ 
