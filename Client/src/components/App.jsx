@@ -23,10 +23,11 @@ console.log(notes);
 
   async function deleteNote(id) {
     try {
-      const deleteKeep = await fetch(`http://localhost:5000/keeps/${id}`, {
+      `4/`
+      const deleteKeep = await fetch(`http://127.0.0.1:8000/api/note_delete/${id}/`, {
         method: "DELETE",
       });
-      setNotes(notes.filter((note) => note.keep_id !== id));
+      setNotes(notes.filter((note) => note.id !== id));
       console.log(deleteKeep);
     } catch (err) {
       console.error(err);
