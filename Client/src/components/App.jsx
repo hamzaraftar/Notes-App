@@ -6,10 +6,11 @@ import CreateArea from "./CreateArea";
 
 function App() {
   const [notes, setNotes] = useState([]);
+console.log(notes);
 
   const getKeep = async () => {
     try {
-      const res = await fetch("http://localhost:5000/keeps");
+      const res = await fetch("http://127.0.0.1:8000/api/note/");
       const data = await res.json();
       setNotes(data);
     } catch (err) {
@@ -39,8 +40,8 @@ function App() {
       {notes.map((noteItem) => {
         return (
           <Note
-          id={noteItem.keep_id}
-            key={noteItem.keep_id}
+          id={noteItem.id}
+            key={noteItem.id}
             title={noteItem.title}
             content={noteItem.content}
             onDelete={deleteNote}

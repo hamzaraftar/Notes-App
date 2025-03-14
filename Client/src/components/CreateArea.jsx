@@ -24,7 +24,7 @@ function CreateArea(props) {
   async function submitNote(e) {
     e.preventDefault();
     try {
-      const res = await fetch("http://localhost:5000/keeps", {
+      const res = await fetch("http://127.0.0.1:8000/api/note_create/", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(note),
