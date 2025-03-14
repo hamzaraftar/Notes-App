@@ -1,70 +1,70 @@
 from django.shortcuts import render
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
-from .serializers import BlogSerializers
-from .models import Blogs
+from .serializers import NoteSerializers
+from .models import Notes
 
 
-# Get all blogs
+# Get all Notes
 @api_view(['GET'])
-def blog_list(request):
-    blogs = Blogs.objects.all()
-    serializer = BlogSerializers(blogs, many=True)
+def note_list(request):
+    note = Notes.objects.all()
+    serializer = NoteSerializers(note, many=True)
     return Response(serializer.data)
 
-# Get a single blog
+# Get a single note
 @api_view(['GET'])
-def blog_detail(request, pk):
+def note_detail(request, pk):
     try:
-        blog = Blogs.objects.get(id=pk)
-    except Blogs.DoesNotExist:
-        return Response({"error": "Blog not found"})    
-    serializer = BlogSerializers(blog, many=False)
+        note = Notes.objects.get(id=pk)
+    except Notes.DoesNotExist:
+        return Response({"error": "note not found"})    
+    serializer = NoteSerializers(note, many=False)
     return Response(serializer.data)
 
-# Creaate a new blog
+# Creaate a new note
 @api_view(['POST'])
-def blog_create(request):
+def note_create(request):
     if request.method =="POST":
-        serializer = BlogSerializers(data=request.data)
+        serializer = NoteSerializers(data=request.data)
         if serializer.is_valid():
             serializer.save()
         return Response(serializer.data)
     return Response(serializer.errors)
 
-# complete update a blog
+# complete update a note
 @api_view(['PUT'])
-def blog_complete_update(request, pk):
+def note_complete_update(request, pk):
     if request.method == 'PUT':
         try:
-            blog = Blogs.objects.get(id=pk)    
-            serializer = BlogSerializers(instance=blog, data=request.data)
+            note = Notes.objects.get(id=pk)    
+            serializer = NoteSerializers(instance=note, data=request.data)
             if serializer.is_valid():
                 serializer.save()
             return Response(serializer.data)
         except Exception as e:
             return Response({"error": str(e)})   
         
-# partial update a blog
+# partial update a note
 @api_view(['PATCH'])
-def blog_partial_update(request, pk):
+def note_partial_update(request, pk):
     if request.method == 'PATCH':
         try:
-            blog = Blogs.objects.get(id=pk)    
-            serializer = BlogSerializers(instance=blog, data=request.data, partial=True)
+            note = Notes.objects.get(id=pk)    
+            serializer = NoteSerializers(instance=note, data=request.data, partial=True)
             if serializer.is_valid():
                 serializer.save()
             return Response(serializer.data)
         except Exception as e:
             return Response({"error": str(e)}) 
         
-# delete a blog
+# delete a note
 @api_view(['DELETE'])
-def blog_delete(request, pk):
+def note_delete(request, pk):
     try:
-        blog = Blogs.objects.get(id=pk)
-        blog.delete()
-        return Response({"message": "Blog deleted successfully"})
+        note = Notes.objects.get(id=pk)
+        note.delete()
+        return Response({"message": "note deleted successfully"})
     except Exception as e:
         return Response({"error": str(e)}) 
  
